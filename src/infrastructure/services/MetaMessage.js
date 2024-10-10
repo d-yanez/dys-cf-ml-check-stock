@@ -42,7 +42,7 @@ module.exports = class MetaMessage {
 
           //console.log(`this.metaPhoneNumberId: ${this.metaPhoneNumberId}`);
           //console.log(`this.metaAccessToken: ${this.metaAccessToken}`);
-          console.log(`this.toPhoneNumber: ${this.metaAccessToken}`);
+          console.log(`this.toPhoneNumber: ${this.toPhoneNumber}`);
           const response = await axios.post(
             `https://graph.facebook.com/v20.0/${this.metaPhoneNumberId}/messages`,
             {

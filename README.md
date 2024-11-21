@@ -29,8 +29,24 @@ Las principales dependencias del proyecto son:
 
 ## Instalación
 
-### Clonar el repositorio
 
-```bash
+## Clonar el repositorio
+
+```
 git clone https://github.com/d-yanez/dys-cf-ml-check-stock.git
+```
+
+## deploy
+```
+gcloud functions deploy dys-cf-ml-check-stock \
+--runtime nodejs18 \
+--trigger-http \
+--allow-unauthenticated \
+--region=us-central1 \
+--env-vars-file=.env.yaml \
+--entry-point=app
+```
+
+
+
 

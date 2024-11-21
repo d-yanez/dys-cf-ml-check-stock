@@ -30,15 +30,29 @@ module.exports = class CheckOrderStock {
                 }
             } else{ 
                 // Verificar si el campo shipping y logistic_type existen antes de acceder
-                const logisticType = item.shipping?.logistic_type;
+                //const logisticType = item.shipping?.logistic_type;
+                // Acceso más robusto a logistic_type
+                let logisticType;
+                console.log('item.shipping completo:', JSON.stringify(itemInfo.shipping, null, 2));
+
+                if (itemInfo.shipping && typeof itemInfo.shipping === 'object') {
+                    if ('logistic_type' in itemInfo.shipping) {
+                        logisticType = itemInfo.shipping.logistic_type;
+                    } else {
+                        logisticType = undefined;
+                    }
+                } else {
+                    logisticType = undefined;
+                }
+                console.log('[46]logisticType:', logisticType); 
                 if (logisticType === 'fulfillment') {
-                    const inventoryId = item.inventory_id || (item.variations || []).find(variation => variation.inventory_id)?.inventory_id;
+                    const inventoryId = itemInfo.inventory_id || (itemInfo.variations || []).find(variation => variation.inventory_id)?.inventory_id;
                     console.log(`inventoryId: ${inventoryId}`);
                     if (inventoryId) {
                         const warehouseStock = await this.mercadoLibreService.getInventoryStock(inventoryId, token);
                         console.log(`warehouseStock: ${warehouseStock}`);
                         if (warehouseStock === 0) {
-                            const alreadyLogged = await this.logOrderSkuRepository.findBySkuAndOrder(item.id, orderId);
+                            const alreadyLogged = await this.logOrderSkuRepository.findBySkuAndOrder(itemInfo.id, orderId);
                             if (!alreadyLogged) {
                                 console.log(`[In FULL]save sku: ${item.id} and order ${orderId} in log! and notify message`);
                                 await this.logOrderSkuRepository.saveLog(item.id, orderId);

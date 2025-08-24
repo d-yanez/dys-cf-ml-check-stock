@@ -1,8 +1,9 @@
 module.exports = class CheckOrderStock {
-    constructor(logOrderSkuRepository, mercadoLibreService, metaMessageService) {
+    constructor(logOrderSkuRepository, mercadoLibreService, metaMessageService, telegramMessageService) {
         this.logOrderSkuRepository = logOrderSkuRepository;
         this.mercadoLibreService = mercadoLibreService;
         this.metaMessageService = metaMessageService;
+        this.telegramMessageService = telegramMessageService;
     }
 
     async execute(orderEvent) {
@@ -22,8 +23,13 @@ module.exports = class CheckOrderStock {
                 if (!alreadyLogged) {
                     console.log(`[inventory]save sku: ${item.id} and order ${orderId} in log! and notify message`);
                     await this.logOrderSkuRepository.saveLog(item.id, orderId);
-                    // Notificar stock out a Meta Message
-                    await this.metaMessageService.sendStockOutMessage(item.id, orderId); // Notificar a Meta
+                    // Notificar stock out -> Meta DESACTIVADO temporalmente
+                    // await this.metaMessageService.sendStockOutMessage(item.id, orderId);
+                    if (this.telegramMessageService && typeof this.telegramMessageService.sendStockOutMessage === 'function') {
+                        await this.telegramMessageService.sendStockOutMessage(item.id, orderId);
+                    } else {
+                        console.log('[Telegram] servicio no configurado: omitiendo notificación');
+                    }
                 }
                 else{
                     console.log("[inventory]Order already notified!!")
@@ -56,8 +62,13 @@ module.exports = class CheckOrderStock {
                             if (!alreadyLogged) {
                                 console.log(`[In FULL]save sku: ${item.id} and order ${orderId} in log! and notify message`);
                                 await this.logOrderSkuRepository.saveLog(item.id, orderId);
-                                // Notificar stock out a Meta Message
-                                await this.metaMessageService.sendStockOutMessage(item.id, orderId); // Notificar a Meta
+                                // Notificar stock out -> Meta DESACTIVADO temporalmente
+                                // await this.metaMessageService.sendStockOutMessage(item.id, orderId);
+                                if (this.telegramMessageService && typeof this.telegramMessageService.sendStockOutMessage === 'function') {
+                                    await this.telegramMessageService.sendStockOutMessage(item.id, orderId);
+                                } else {
+                                    console.log('[Telegram] servicio no configurado: omitiendo notificación');
+                                }
                             }
                             else{
                                 console.log("[In FULL]Order already notified!!")

@@ -26,6 +26,18 @@ Las principales dependencias del proyecto son:
 - **Mongoose**: Para la interacción con MongoDB.
 - **Axios**: Cliente HTTP para realizar solicitudes a las APIs de Mercado Libre y Meta.
 - **@google-cloud/functions-framework**: Para ejecutar la Cloud Function localmente.
+npm run start
+- resultado -->
+> dys-cf-ml-check-stock@1.0.0 start
+> functions-framework --target=app
+
+Serving function...
+Function: app
+Signature type: http
+URL: http://localhost:8080/
+Conectado a MongoDB
+MongoDB conectado
+Conexión inicializada
 
 ## Instalación
 
@@ -39,7 +51,7 @@ git clone https://github.com/d-yanez/dys-cf-ml-check-stock.git
 ## deploy
 ```
 gcloud functions deploy dys-cf-ml-check-stock \
---runtime nodejs18 \
+--runtime nodejs20 \
 --trigger-http \
 --allow-unauthenticated \
 --region=us-central1 \
@@ -47,6 +59,12 @@ gcloud functions deploy dys-cf-ml-check-stock \
 --entry-point=app
 ```
 
+## upadtes
+v:13.08.2025
+Integración de Telegran
+
+nombre bot: StockOutNotifierBot
+user name:stock_out_notifier_bot
 
 
 

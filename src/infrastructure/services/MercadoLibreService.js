@@ -6,7 +6,7 @@ class MercadoLibreService {
         const response = await axios.post('https://us-central1-prd-dyshopnow.cloudfunctions.net/dys-cf-api-ml-auth/auth/token', null, {
             headers: { 'x-api-key': process.env.ML_API_KEY }
         });
-        console.log(`token ML:${response.data.token}`);
+        //console.log(`token ML:${response.data.token}`);
         return response.data.token;
     }
 

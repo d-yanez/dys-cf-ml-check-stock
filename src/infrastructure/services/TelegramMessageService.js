@@ -29,7 +29,8 @@ class TelegramMessageService {
     }
 
     // Base para ver stock (permite override por env si cambia la URL)
-    this.stockViewBase = process.env.STOCK_VIEW_BASE_URL || 'https://railway-node-express-app.up.railway.app/views?sku=';
+    //this.stockViewBase = process.env.STOCK_VIEW_BASE_URL || 'https://railway-node-express-app.up.railway.app/views?sku=';
+    this.stockViewBase = 'https://dy-api-utils-785293986978.us-central1.run.app/stock/view/';
 
     this.http = axios.create({
       baseURL: `https://api.telegram.org/bot${this.botToken}`,

@@ -28,4 +28,5 @@ dist/
 temp/
 
 # Archivos específicos del sistema operativo
-Thumbs.db
+Thumbs.db.cache/
+.atl/
